@@ -18,6 +18,8 @@ namespace AudenTest.Pages.Credit.ShortTermLoan
         private By rdoBtn_FirstRepaymentCurrentMonth = By.CssSelector("label.loan-schedule__tab__panel__detail__tag__label:nth-child(1)");
         private By rdoBtn_FirstRepaymentNextMonth = By.CssSelector("label.loan-schedule__tab__panel__detail__tag__label:nth-child(2)");
 
+        private By btn_CheckEligibility = By.CssSelector(".loan-calculator__apply");
+
         public ShortTermLoan(IWebDriver driver)
         {
             this.Driver = driver;
@@ -50,8 +52,7 @@ namespace AudenTest.Pages.Credit.ShortTermLoan
             var sliderMinAmount = Convert.ToInt32(slider.GetAttribute("min"));
             var pixels = GetPixelsToMove(slider, amount, sliderMaxAmount, sliderMinAmount);
 
-            Driver.Manage().Window.Maximize();
-
+            
             var sliderAction = new Actions(Driver);
 
             sliderAction.ClickAndHold(slider)
@@ -63,6 +64,10 @@ namespace AudenTest.Pages.Credit.ShortTermLoan
 
         public DateTime GetFirstPaymentDate()
         {
+
+            new WebDriverWait(Driver, new TimeSpan(0, 0, 5)).
+               Until(d => d.FindElement(btn_CheckEligibility).Enabled);
+
             return DateTime.Parse(Driver.FindElement(rdoBtn_FirstRepaymentNextMonth).Text);
         }
 

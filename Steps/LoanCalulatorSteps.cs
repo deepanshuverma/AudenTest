@@ -4,6 +4,7 @@ using AudenTest.Pages.Credit.ShortTermLoan;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using TechTalk.SpecFlow;
 
@@ -70,8 +71,8 @@ namespace AudenTest.Steps
         public void ThenLoanAmountInSummaryIsEqualTo(int amount)
         {
             var loanAmount = _shortTermLoan.GetLoanSummaryMatrix("Loan");
-            var amt = int.Parse(loanAmount, System.Globalization.NumberStyles.Currency);
-            Assert.That(amount, Is.EqualTo(amt));
+            
+            Assert.True(loanAmount.Contains(amount.ToString()));
         }
 
     }
